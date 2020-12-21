@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """A module related to youtube.
 
 Disclaimer : Following contents are injurious to your mind
@@ -17,13 +16,11 @@ import youtube_dl
 from youtube_search import YoutubeSearch
 from playx.stringutils import fix_title, is_song_url
 
-
 from playx.cache import Cache
 
 from playx.utility import exe
 
 from playx.logger import Logger
-
 
 # Setup logger
 logger = Logger("youtube")
@@ -72,10 +69,8 @@ def get_youtube_streams(url):
 
     if error != "":
         logger.critical(
-            "'{}' Error passed by youtube-dl. Please check if the latest version of youtube-dl is installed. You can report the error on https://yt-dl.org/bug.".format(
-                error
-            )
-        )
+            "'{}' Error passed by youtube-dl. Please check if the latest version of youtube-dl is installed. You can report the error on https://yt-dl.org/bug."
+            .format(error))
 
     logger.debug("O/P: {}".format(output))
     logger.debug("ERROR: {}".format(error))
@@ -96,17 +91,15 @@ def get_youtube_title(url):
     """
     return get_youtube_title2(url)
 
-    """
-    logger.debug("Extracting title of passed URL")
-    try:
-        r = requests.get(url)
-    except Exception as e:
-        logger.error("ERROR: {}".format(e))
-        sys.exit(-1)
-    title = re.findall(r"<title>.*?</title>", r.text)[0]
-    title = re.sub(r"title|>|<|/|\ ?-|\ ?YouTube", "", str(title))
-    return title
-    """
+    # logger.debug("Extracting title of passed URL")
+    # try:
+    #     r = requests.get(url)
+    # except Exception as e:
+    #     logger.error("ERROR: {}".format(e))
+    #     sys.exit(-1)
+    # title = re.findall(r"<title>.*?</title>", r.text)[0]
+    # title = re.sub(r"title|>|<|/|\ ?-|\ ?YouTube", "", str(title))
+    # return title
 
 
 def get_youtube_title2(url):
@@ -147,10 +140,10 @@ def search_youtube(query, disable_kw=False):
 
     # Use youtube_search to search youtube for the query
     results = YoutubeSearch(query, max_results=10).to_dict()
+    youtube_metadata = YoutubeMetadata()
     videos = []
 
     for result in results:
-        youtube_metadata = YoutubeMetadata()
         youtube_metadata.title = result['title']
         youtube_metadata.url = base_url + result['url_suffix']
         youtube_metadata.duration = result['duration']
